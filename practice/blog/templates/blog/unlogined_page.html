@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+    {{blog.title}}
+{% endblock %}
+
+{% block active %}
+<li class="active"><a href="/">首页 </a></li>
+<li ><a href="{% url 'blog_list' %}">博客</a></li>
+{% endblock %}
+
+{% block content %}
+登陆失败
+    {% endblock %}

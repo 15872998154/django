@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+{% block title %}
+    个人主页
+{% endblock %}
+
+{% block active %}
+<li class="active"><a href="/">首页</a></li>
+<li ><a href="{% url 'blog_list' %}">博客</a></li>
+{% endblock %}
+
+{% block content %}
+    欢迎来到个人博客   
+{% endblock %}

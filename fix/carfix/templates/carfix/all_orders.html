@@ -1,0 +1,145 @@
+{% extends 'carfix/base.html' %}
+
+{% block title %}
+清单列表
+{% endblock %}
+
+{% block nav %}
+    <div class="container">
+   <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+         <!--  button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button> -->
+          <a class="navbar-brand" href="#" >蓝翔汽修厂,非一般的汽修厂</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse set_color" >
+          <ul class="nav navbar-nav" >
+           <li ><a href="#" ><span class="glyphicon glyphicon-home"> </span> 首页</a></li>
+            <li><a href="#about" >关于我们</a></li>
+            <li><a href="#contact" ><span class="glyphicon glyphicon-phone-alt"> </span> 联系我们</a></li>
+            <!-- <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li> -->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li ><a href="{% url 'book' %}" >客户信息录入</a></li>
+            {% if is_boss %}
+              <li class="active"><a href="#">查看已完成订单</a></li>
+            {% endif %}  
+            <!-- <li><a href="../navbar/">Default</a></li> -->
+            {% if is_boss %}
+              <li><a href="{% url 'make_order' %}">待生成订单<span class="badge">{{waited_orders|length}}</span></a></li>
+            
+            {% endif %}  
+              
+            <li ><a href="#">欢迎您 ~ {{user_real_name}}<span class="sr-only">(current)</span></a></li>
+            <li ><a href="{% url 'logout' %}">注销<span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+  </div>
+{% endblock %}
+
+
+{% block content %}
+	
+	
+	 <table align="center" class="table-bordered">
+      <tr align="center" bgcolor="F1F1F1">
+        <th width="100px">编号</th>
+        <th width="100px">用户姓名</th>
+        <th width="100px">用户联系方式</th>
+        <th width="100px">品牌</th>
+        <th width="100px">主要损坏部位</th>
+        <th width="100px">维修负责人</th>
+        <th width="100px">主要使用配件</th>
+		<th width="100px">交易价格</th>
+        <th width="200px">订单时间</th>
+        
+              </tr>
+      {% for order in current_page_of_orders.object_list %}
+      <tr align="center" bgcolor="FFFFFF" id="{{user.id}}"> 
+        <td>{{order.id}}</td>
+        <td>{{order.user.user_name}}</td>
+        <td>{{order.user.user_tel}}</td>
+        <td>{{order.user.user_car.car_brand}}</td>
+        <td>{{order.user.user_car.car_broken_part}}</td>
+        <td>{{order.worker.worker_name}}</td>
+        <td>{{order.main_goods}}</td>
+        <td>{{order.price}}</td>
+        <td>{{order.begin_fix_time}}</td>
+      </tr>
+      			
+      {% empty %}
+      暂无订单记录
+
+      {% endfor %}
+    </table>
+   <div align="center" style="margin-top:10px ">
+   
+        <!-- {% if current_page_of_orders.has_previous %}
+            <a href="?page={{ current_page_of_orders.previous_page_number }}">previous</a>
+        {% endif %}
+ 
+        <span class="current">
+            Page {{ current_page_of_orders.number }} of {{ current_page_of_orders.paginator.num_pages }}.
+        </span>
+ 
+        {% if current_page_of_orders.has_next %}
+            <a href="?page={{ current_page_of_orders.next_page_number }}">next</a>
+        {% endif %}
+     -->
+     	<nav aria-label="...">
+		  <ul class="pagination pagination-lg">
+		   
+		   	 {% if current_page_of_orders.has_previous %}
+		   	 <li >
+           		<a href="?page={{ current_page_of_orders.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+           	</li>
+           	{% else %}
+           	<li class="disabled">
+           		<a aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+           	</li>
+		   	{% endif %}
+		   	
+
+		   
+		   
+		   <li>
+		    	<span>{{current_page_of_orders.number}}/{{paginator.num_pages}}</span>
+		   </li>
+		   
+		   {% if current_page_of_orders.has_next %}
+		   	 <li >
+           		<a href="?page={{ current_page_of_orders.next_page_number }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+           	</li>
+           	{% else %}
+           	<li class="disabled">
+           		<a  aria-label="next"><span aria-hidden="true">&laquo;</span></a>
+           	</li>
+		   	{% endif %}
+
+		  </ul>
+		  
+		</nav>
+
+
+	</div>
+
+{% endblock %}

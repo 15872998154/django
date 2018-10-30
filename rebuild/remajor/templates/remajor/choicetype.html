@@ -1,0 +1,8 @@
+<form action="{% url 'choicetype' %}" , method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="course_id" value={{course_id}}>
+    <input type="radio" name="rebuild_type" value="nomal" checked="checked">普通重修 <br>
+    <input type="radio" name="rebuild_type" value="flushrank"> 刷分 <br>
+    <input type="submit" value="提交">
+</form>
+

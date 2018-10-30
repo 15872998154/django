@@ -1,0 +1,273 @@
+{% extends 'carfix/base.html' %}
+
+{% block title %}生成订单{% endblock%}
+
+{% block nav %}
+    <div class="container">
+   <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">蓝翔汽修厂,非一般的汽修厂</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li ><a href="#" ><span class="glyphicon glyphicon-home"> </span> 首页</a></li>
+            <li><a href="#about" >关于我们</a></li>
+            <li><a href="#contact" ><span class="glyphicon glyphicon-phone-alt"> </span> 联系我们</a></li>
+            <!-- <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li> -->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'book' %}">客户信息录入</a></li>
+            {% if is_boss %}
+              <li><a href="{% url 'fix_list' %}">查看已完成订单</a></li>
+            {% endif %}  
+            <!-- <li><a href="../navbar/">Default</a></li> -->
+            {% if is_boss %}
+              <li class="active"><a href="#">待生成订单<span class="badge">{{waited_orders|length}}</span></a></li>
+            
+            {% endif %}  
+              
+            <li ><a href="#">欢迎您 ~ {{user_real_name}}<span class="sr-only">(current)</span></a></li>
+            <li ><a href="{% url 'logout' %}">注销<span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  </div>
+
+{% endblock %}
+
+{% block content %}
+
+    <table align="center" class="table-bordered">
+      <tr align="center" bgcolor="F1F1F1">
+        <th width="100px">编号</th>
+        <th width="100px">用户姓名</th>
+        <th width="100px">用户联系方式</th>
+        <th width="100px">品牌</th>
+        <th width="100px">主要损坏部位</th>
+        <th width="100px">负责维修人员</th>
+        <th width="100px">订单时间</th>
+        <th width="100px">交易价格</th>
+        <th width="100px">主要使用配件</th>
+        <th width="100px" >操作一</th>
+        <th width="100px" >操作二</th>
+      </tr>
+      {% for user in waited_orders %}
+      <tr align="center" bgcolor="FFFFFF" id="delete_{{user.id}}"> 
+        <td>{{user.id}}</td>
+        <td>{{user.user_name}}</td>
+        <td>{{user.user_tel}}</td>
+
+        <td>{{user.user_car.car_brand}}</td>
+        <td>{{user.user_car.car_broken_part}}</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        
+        
+        
+        <td><a user_id="{{user.id}}" onclick="set_id({{user.id}},this)" href="#"  data-toggle="modal" data-target="#myModal">生成订单</a></td>
+        <td><a user_id="{{user.id}}" onclick="trans_info({{user.id}},this)" href="#" data-toggle="modal" data-target="#myModal_delete" >删除记录</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+ 
+  <!-- 生成订单模态框 -->
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel" align="center">生成订单</h4>
+                <form action="{% url 'fix_list' %}" method="post" >
+                      {% csrf_token %}
+                      <input id="make_order_hidden" type="hidden" name="user_id" value="">
+                      <div class="form-group" >
+                            <label for="exampleInputEmail1">主要损坏部位</label>
+                            <input type="text" required="required" class="form-control" id="exampleInputEmail1" placeholder="主要损坏部位" name="main_broken_part">
+                      </div>
+                      <!-- <div class="form-group">
+                            <label for="user_num">负责维修人员工号</label>
+                            <input required="required" type="text" class="form-control" id="user_num" placeholder="负责维修人员" name="fix_man_id">
+                      </div> -->
+                      
+
+                      <!-- <div class="form-group">
+                            <label for="addr">订单时间</label>
+                            <input type="text" class="form-control" id="addr" placeholder="订单时间" name="user_addr">
+                      </div> -->
+                      <div class="form-group">
+                            <label for="brand">交易价格</label>
+                            <input required="required" type="text" class="form-control" id="brand" placeholder="交易价格" name="bargain_price">
+                      </div>
+                      <div class="form-group">
+                            <label for="description">主要使用配件</label>
+                            <input required="required"  type="text" class="form-control" id="description" placeholder="主要使用配件" name="main_goods">
+                      </div>
+
+                      <label >负责维修人员</label>
+                      <select name="fix_man_id" >
+                        {% for worker in workers %}
+                          <option value ="{{worker.id}}">{{worker.worker_name}}</option>
+                        {% endfor %}
+                        
+                      </select>
+                      <span class="show-error">{{form.non_field_errors}}</span>
+                      <!-- <button type="submit" class="btn btn-default pull-right">提交</button> -->
+                      <button type="submit" class="btn btn-primary pull-right" 
+                      style="margin-left:10px">生成订单</button>
+                      <button type="button" style="margin-left:10px" class="btn btn-primary pull-right " data-dismiss="modal">关闭</button>
+
+                     
+                    
+                    </form>
+            </div>
+            <!-- <div class="modal-body">按下 ESC 按钮退出。</div> -->
+            <
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!-- <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal_delete">
+  开始演示模态框
+</button> -->
+
+<!-- 确认删除模态框（Modal） -->
+<div class="modal fade" id="myModal_delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel" align="center">
+          确认删除
+        </h4>
+      </div>
+      <div class="modal-footer">
+        
+        <button  id="certain_delete" data-dismiss="modal" type="button" class="btn btn-primary" style="margin-left:100px" align="center">
+          是的，我确定
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">不~再想想
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>
+
+
+
+<div class="modal fade" id="delete_success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel" align="center">
+          删除成功！
+        </h4>
+      </div>
+      <div class="modal-footer">
+        
+        <!-- <button  id="certain_delete" data-dismiss="modal" type="button" class="btn btn-primary" style="margin-left:100px" align="center">
+          是的，我确定
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">不~再想想
+        </button> -->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>
+<script >
+   
+    function trans_info(id,cur){
+        
+          $("#certain_delete").click(function(){
+            
+            // console.log("123");
+            // $.ajaxSetup({
+            //     data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            // });
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            });
+
+            $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:"{% url 'delete_user' %}",
+            data:{ "user_id":id },
+            success: function(response){//success就是回调函数，解析数据就是这
+              console.log(response.status);
+              console.log(response.deleted_id);
+              console.log("=======================")
+              s = "#"+"delete_"+response.deleted_id;
+              $(s).remove();
+              $("#delete_success").modal("show");
+
+            },
+            error:function(xhr){
+              console.log("error");
+              alert("操作失败,请稍候重试!");
+            }
+            });
+            
+            
+        });
+        
+    }
+
+    function set_id(id,cur){
+        $("#make_order_hidden").attr("value",id);
+        console.log($("#make_order_hidden").attr("value"));
+        
+    }
+
+
+
+</script>
+
+{% endblock %}
+
+ // $(document).ready(function(){
+    //   $("#certain_delete").click(function(){
+    //     console.log({{user.id}});
+    //         $.ajaxSetup({
+    //             data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    //         });
+    //         $.ajax({
+    //         type:"POST",
+    //         url:"{% url 'delete_user' %}",
+    //         dataType:"json",
+    //         data:{ "id":{{user.id}} },
+    //         success: function(json){//success就是回调函数，解析数据就是这
+    //           console.log(json);
+    //         },
+    //         error:function(){
+    //           console.log("fail");
+    //         }
+    //         });
+    //   });
+    // });

@@ -1,0 +1,14 @@
+<h1>
+	<a href="create_article/">新文章</a>
+</h1>
+<br>
+<h3>
+	{% for article in articles %}
+		<a href="article/{{article.id}}">
+			{{article.title}}
+		</a>
+		
+		<br><br>
+
+	{% endfor %}
+</h3>

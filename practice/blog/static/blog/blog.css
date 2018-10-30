@@ -1,0 +1,7 @@
+div.comment-header {
+    margin-top:2em;
+}
+h3.comment-title{
+    border-bottom: 3px solid #ccc;
+    padding-bottom: 0.4em;
+}
