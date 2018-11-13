@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock%}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{%static 'carfix/bootstrap.min.css'%}">
+
+  <script src="{%static 'carfix/jquery2.1.min.js'%}"></script>
+  <script src="{%static 'carfix/bootstrap1.min.js'%}"></script>
+     <script src="{%static 'carfix/jquery3.1.min.js'%}"></script>
+     <link href="{%static 'carfix/bootstrap2.min.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+     <!-- mtv  -->
+    <style type="text/css">
+        .table-bordered tr th,td{
+           text-align: center;
+           height:40px;
+        }
+        .container-modal{
+          margin-top:70px; 
+        }
+        .table-bordered{
+          margin-top:100px;
+        }
+        .navbar-fixed-top{
+            font-size: 16px;
+        }
+        .login_form{
+            margin-top:48px;
+            background:url() no-repeat; 
+        }
+       .show-error{
+            color:red;
+        }
+        .heading-size{
+            font-size: 1.3em;
+        }
+        
+        /*#loading{position:fixed;top:0;left:0;width:100%;height:100%;opacity:0.6;z-index:15000;}
+
+        #loading img{position:absolute;top:50%;left:50%;width:60px;height:60px;margin-top:-30px;margin-left:-30px;background: white;}
+        
+        div.thumbnail img{
+            width:500px;
+            height: 221px;
+        }*/
+
+       div.row{
+        padding: 50px 80px;
+       }
+    </style>
+  </script>
+</head>
+<body>
+
+    {% block nav %}
+    {% endblock %}
+    
+      
+    {% block content %}
+    {% endblock %}
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+
+<!-- {{request.path}}<br>
+{{request.get_host}}{{request.get_full_path}}<br> -->

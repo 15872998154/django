@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<style type="text/css">
+	body {
+		padding-right: 0px !important; 
+
+
+	}
+    *.modal-open {
+    		overflow-y: scroll;
+    		padding-right: 0 !important;
+    }
+	table thead th {
+		text-align:center;
+	}
+	table tr td {
+		text-align: center;
+	}
+</style>
+	<title>test</title>
+</head>
+<body>
+<div class="col-md-4 col-md-offset-4 wrapper">
+	<table class="table table-bordered">
+	
+		<thead>
+			<th>id</th>
+			<th>name</th>
+			<th>age</th>
+			<th>score</th>
+			<th>操作一</th>
+			<th>操作二</th>
+
+		</thead>
+		{% for student in students %}
+			<tr >
+				<td>{{student.id}}</td>
+				<td>{{student.stu_name}}</td>
+				<td>{{student.stu_age}}</td>
+				<td>{{student.score}}</td>
+				<td><a onclick="setId({{student.id}},this)"  data-toggle="modal" data-target="#modifyModal"  >modify</a></td>
+				<td><a delete_id={{student.id}} onclick="trans_info({{student.id}},this)" href="#" data-toggle="modal" data-target="#mdeleteModal"  >delete</a></td>
+
+			</tr>
+			
+		{% endfor %}
+
+	</table>
+
+
+<!-- 按钮触发模态框 -->
+<h2>创建模态框（Modal）</h2>
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdeleteModal">开始演示模态框</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="mdeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel" align="center" >确认删除</h4>
+            </div>
+            
+            <div class="modal-footer">
+            	<button id="certain_delete" type="button" class="btn btn-primary" data-dismiss="modal">确认删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+               
+                <h4 class="modal-title" id="myModalLabel" align="center">删除成功</h4>
+            </div>
+            
+            
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="modifysuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+               
+                <h4 class="modal-title" id="myModalLabel" align="center">修改成功</h4>
+            </div>
+            
+            
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel" align="center" >修改信息</h4>
+            </div>
+            
+            <div class="modal-footer">
+            	<form action="" method="post" id="modify_form">
+                      {% csrf_token %}
+                      <input id="form_stu_id_hidden" type="hidden" name="stu_id" value="">
+                      <div class="form-group" >
+                            <label for="stu_name" class="pull-left">姓名</label>
+                            <input type="text" required="required" class="form-control " id="stu_name" placeholder="name" name="name">
+                      </div>
+             
+                      <div class="form-group">
+                            <label for="age" class="pull-left">年龄</label>
+                            <input required="required" type="text" class="form-control" id="age" placeholder="age" name="age">
+                      </div>
+                      <div class="form-group">
+                            <label for="score" class="pull-left">分数</label>
+                            <input required="required"  type="text" class="form-control" id="score" placeholder="score" name="score">
+                      </div>
+
+                      <span class="show-error">{{form.non_field_errors}}</span>
+                      
+                      <button type="button" style="margin-left:10px" class="btn btn-primary pull-right " data-dismiss="modal">关闭</button>
+                      <button type="button" class="btn btn-primary pull-right" 
+                      style="margin-left:10px" id="submit_btn" data-dismiss="modal">提交</button>
+
+                     
+                    
+                    </form>
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+      
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+	function setId(stu_id,cur){
+		cur = $(cur);
+
+		$("#form_stu_id_hidden").attr("value",stu_id);
+		$("#stu_name").val(cur.parent().parent("tr").children("td").eq(1).html());
+		$("#age").val(cur.parent().parent("tr").children("td").eq(2).html());
+		$("#score").val(cur.parent().parent("tr").children("td").eq(3).html());
+		$("#submit_btn").click(function(){
+
+			$.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            });
+
+            $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:"{% url 'modify' %}",
+           	
+            data:$("#modify_form").serialize(),
+
+            success: function(response){//success就是回调函数，解析数据就是这
+            	
+            	if(response.status=="success"){
+
+            		$("#modifysuccess").modal("show");
+            		cur.parent().parent("tr").children("td").eq(0).html(response.id)
+            		cur.parent().parent("tr").children("td").eq(1).html(response.stu_name)
+            		cur.parent().parent("tr").children("td").eq(2).html(response.age)
+            		cur.parent().parent("tr").children("td").eq(3).html(response.score)
+            		
+            		
+            	}
+              	
+              	
+            },
+            error:function(xhr){
+              console.log("error");
+              alert("操作失败,请稍候重试!");
+            }
+            });
+		});
+
+	}
+
+
+
+
+	function trans_info(student_id,cur){
+		cur = $(cur);
+		console.log(cur);
+
+		$("#certain_delete").click(function(){
+			
+			$.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            });
+
+            $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:"{% url 'delete' %}",
+            data:{ "user_id":student_id },
+            success: function(response){//success就是回调函数，解析数据就是这
+            	console.log(cur);
+              	cur.parent().parent("tr").remove();
+              	$("#successModal").modal("show");
+              	
+              	
+            },
+            error:function(xhr){
+              console.log("error");
+              alert("操作失败,请稍候重试!");
+            }
+            });
+		});
+		
+	};
+
+
+
+</script>
+</body>
+</html>
+

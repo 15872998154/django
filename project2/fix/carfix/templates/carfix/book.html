@@ -1,0 +1,150 @@
+{% extends 'carfix/base.html' %}
+{% block title %}客户信息录入{% endblock%}
+
+{% block nav %}
+    <div class="container">
+   <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+         <!--  button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button> -->
+          <a class="navbar-brand" href="#" >蓝翔汽修厂,非一般的汽修厂</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse set_color" >
+          <ul class="nav navbar-nav" >
+            <li ><a href="#" ><span class="glyphicon glyphicon-home"> </span> 首页</a></li>
+            <li><a href="#about" >关于我们</a></li>
+            <li><a href="#contact" ><span class="glyphicon glyphicon-phone-alt"> </span> 联系我们</a></li>
+            <!-- <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li> -->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#" >客户信息录入</a></li>
+            {% if is_boss %}
+              <li><a href="{% url 'fix_list' %}">查看已完成订单</a></li>
+            {% endif %}  
+            <!-- <li><a href="../navbar/">Default</a></li> -->
+            {% if is_boss %}
+              <li><a href="{% url 'make_order' %}">待生成订单<span id="unordered_count" class="badge">{{waited_orders|length}}</span></a></li>
+            
+            {% endif %}  
+              
+            <li ><a href="#">欢迎您 ~ {{user_real_name}}<span class="sr-only">(current)</span></a></li>
+            <li ><a href="{% url 'logout' %}">注销<span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+  </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container login_form" >
+    <div class="row" >
+        <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                  <div class="panel-heading heading-size" align="center">客户信息填写</div>
+                  <div class="panel-body">
+                    <form  method="post" id="submit_order">
+                      {% csrf_token %}
+                      <div class="form-group" >
+                            <label for="exampleInputEmail1">用户姓名</label>
+                            <input required="required" type="text" class="form-control" id="exampleInputEmail1" placeholder="姓名" name="user_name">
+                      </div>
+                      <div class="form-group">
+                            <label for="user_num">联系方式</label>
+                            <input required="required" type="text" class="form-control" id="user_num" placeholder="联系方式" name="user_tel">
+                      </div>
+                      <div class="form-group">
+                            <label for="addr">家庭住址</label>
+                            <input required="required" type="text" class="form-control" id="addr" placeholder="家庭住址" name="user_addr">
+                      </div>
+                      <div class="form-group">
+                            <label for="brand">品牌</label>
+                            <input required="required" type="text" class="form-control" id="brand" placeholder="品牌" name="car_brand">
+                      </div>
+                      <div class="form-group">
+                            <label for="description">主要损坏部位描述</label>
+                            <input required="required" type="text" class="form-control" id="description" placeholder="描述" name="car_broken_part">
+                      </div>
+                      <span class="show-error">{{form.non_field_errors}}</span>
+                      
+                    </form>
+                    <button id ="submit_data_btn"  class="btn btn-primary pull-right">提交</button>
+                  </div>
+                </div>
+            
+        </div>
+    </div>
+    
+</div>
+
+
+<div class="modal fade" id="success_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel" align="center">
+          提交成功
+        </h4>
+      </div>
+      <div class="modal-footer">
+        
+        <!-- <button  id="certain_delete" data-dismiss="modal" type="button" class="btn btn-primary" style="margin-left:100px" align="center">
+          是的，我确定
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">不~再想想
+        </button> -->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>
+
+<script >
+ $("#submit_data_btn").click(function(){
+        var data = $("#submit_order").serialize();
+        console.log(data);
+        $.ajax({
+            url:'{% url 'book' %}',
+            type:"POST",
+            dataType:"json",
+            async:true,
+            data:data,
+            success:function(response){
+              console.log("success");
+              
+              $("#unordered_count").text(response.count);
+              $('#success_box').modal('show');
+              $("input:not([type=hidden]),textarea,select").val("");
+            },
+            error:function(xhr){
+              console.log("error");
+              alert("响应超时，请稍候重试！");
+            }
+
+
+
+        });
+    });
+    
+</script>
+{% endblock %}
+
