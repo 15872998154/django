@@ -1,3 +1,92 @@
-<h1>{{article.title}}</h1>
+<!DOCTYPE html>
 
-<p>{{article.content}}</p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>{{article.belong_novel}}, {{article.title}},99读书网</title>
+<meta name="keywords" content="{{article.belong_novel}}, {{article.title}},99读书网">
+<meta name="description" content=" {{article.title}}在线阅读，{{article.belong_novel}}最新章节，{{article.belong_novel}}无弹窗。更多好看的小说尽在99读书网！">
+
+<link rel="stylesheet" href="/static/feedfox/files2/index.min.css">
+<!-- <script src="./read_files/hm.js.下载"></script>
+<script src="./read_files/push.js.下载"></script> -->
+<script type="text/javascript" src="/static/feedfox/files2/jquery.js.下载"></script>
+<!-- <script type="text/javascript" src="./read_files/index.js.下载"></script> -->
+
+
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="logo">
+    <a href="" style="background: url(/static/feedfox/files/move.png)">99读书网</a>
+  </div>
+  <div class="seach">
+    <form action="{%url 'search' %}" accept-charset="utf-8" onsubmit="document.charset=&#39;utf-8&#39;;">
+    <input name="search_field" id="selVal" type="hidden" value="0">
+    <input type="text" autocomplete="off" name="key" class="searchinput" placeholder="请输入小说名和作者名来搜索，千万别输错字了！">
+    <input type="submit" value="搜 索" class="searchgo">
+    </form>
+  </div>
+</div>
+<div class="nav">
+  <div class="main">
+    <ul class="nav_l">
+      <li><a href="{% url 'index' %}">首页</a></li>
+      {% for type in all_type %}
+        <li><a href="{% url 'novel_cate' type.id%}">{{type.type_name}}</a></li>
+        
+      {% endfor %}
+    </ul>
+    <ul class="nav_r">
+      <li><a href="#">收藏</a></li>
+      <li><a href="#">新书</a></li>
+      <li><a href="#">完本</a></li>
+      <li><a href="#" rel="nofollow">求书</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="read_t">
+  <span>
+  </span>当前位置：<a href="#">99读书网</a> &gt; <a href="#">{{article.belong_novel.get_novel_type}}</a> &gt; <a href="#">{{article.belong_novel.novel_name}}</a> &gt;  {{article.title}}
+</div>
+
+  
+  
+ 
+
+<div class="novel">
+  <h1> {{article.title}}</h1>
+  <div class="pereview">
+    <a href="#" target="_top">← 上一章</a><a class="back" href="{% url 'novel_detail' article.belong_novel.id %}" >返回目录</a><a href="#" >下一章 →</a>
+  </div>
+ 
+
+
+  <div class="yd_text2">
+<!--     &nbsp;&nbsp;&nbsp;&nbsp;“病人怎么还没醒？这都四天了，这么大一帅哥，不会成植物人吧？”<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;“可能性很大！不过这人也真够倒霉的，从美国回来，刚到北电报道，结果上楼的时候在楼梯上摔了一跤，颅内出血。更倒霉的是正赶上暑假，教学楼没人，在楼梯上躺了一两个小时才被发现，要是再晚一点，恐怕都没救了。”<br> -->
+{{article.content}}
+
+  </div>
+  
+  <div class="pereview">
+    <a href="#" target="_top">← 上一章</a><a class="back" href="{% url 'novel_detail' article.belong_novel.id %}" target="_top">返回目录</a><a href="#" target="_top">下一章 →</a>
+  </div>
+
+</div>
+
+<div id="footer">
+  <p>
+    本站所有小说由网友上传，如有侵犯版权，请来信告知，本站立即予以处理。
+  </p>
+  <p>
+    Copyright &#169; 2018 99读书网 All Rights Reserved.
+    <script>tongji();</script>
+  </p>
+</div>
+
+
+<div id="topcontrol" title="返回顶部" style="position: fixed; bottom: 80px; right: 10px; opacity: 0; cursor: pointer;"><img src="./read_files/top.gif" style="width:40px; height:40px; border:0;"></div><iframe id="google_osd_static_frame_2210644100402" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./read_files/saved_resource(5).html"></iframe></body><iframe id="google_shimpl" style="display: none;" src="./read_files/saved_resource(6).html"></iframe>
+</html>

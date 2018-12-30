@@ -15,11 +15,11 @@ class ArticleAdmin(admin.ModelAdmin):
 @admin.register(Novel)
 class NovelAdmin(admin.ModelAdmin):
     #展示字段
-    list_display = ('id','novel_name','get_novel_type','description')
+    list_display = ('id','novel_name','get_novel_type','description','image')
 
-    list_display_links = ('id','novel_name','get_novel_type','description')
+    list_display_links = ('id','novel_name','get_novel_type','description','image')
     #可修改字段
-    fields = ('novel_name','novel_type','description')
+    fields = ('novel_name','novel_type','description','image')
 
 @admin.register(NovelType)
 class NovelTypeAdmin(admin.ModelAdmin):

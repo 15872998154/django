@@ -16,9 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import feedfox.views as fv 
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
+    path('',fv.index,name = "index"),
     path('admin/', admin.site.urls),
     path("novel_list",fv.novel_list,name = "novel_list"),
     path("novel_list/<int:novel_id>/",fv.novel_detail,name = "novel_detail"),
-]
+    path("novel_cate/<int:type_id>/",fv.novel_cate,name="novel_cate"),
+    path("search/",fv.search,name="search"),
+
+] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)https://www.88dush.com/xiaoshuo/94/94313/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+<title>{{novel.novel_name}},99读书网</title>
+<meta name="keywords" content="{{novel.novel_name}},99读书网">
+<meta name="description" content="99读书网为您提供{{novel.novel_name}}最新章节，{{novel.novel_name}}无弹窗。更多汉乡小说尽在99读书网，好看记得告诉您的朋友哦！">
+
+
+<link rel="stylesheet" href="/static/feedfox/files2/index.min.css">
+<!-- <script src="/static/feedfox/files2/f.txt"></script>
+<script src="/static/feedfox/files2/ca-pub-1901018673541035.js.下载"></script>
+<script src="/static/feedfox/files2/hm.js.下载"></script>
+<script src="/static/feedfox/files2/push.js.下载"></script> -->
+<script type="text/javascript" src="/static/feedfox/files2/jquery.js.下载"></script>
+<!-- <script type="text/javascript" src="/static/feedfox/files2/index.js.下载"></script> -->
+<link rel="preload" href="/static/feedfox/files2/f(1).txt" as="script">
+<!-- <script type="text/javascript" src="/static/feedfox/files2/f(1).txt"></script> -->
+
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="logo">
+    <a href="" style="background: url(/static/feedfox/files/move.png)">88读书网</a>
+  </div>
+  <div class="seach">
+    <form action="{%url 'search' %}" accept-charset="utf-8" onsubmit="document.charset=&#39;utf-8&#39;;">
+		<input name="search_field" id="selVal" type="hidden" value="0">
+		<input type="text" autocomplete="off" name="key" class="searchinput" placeholder="请输入小说名和作者名来搜索，千万别输错字了！">
+		<input type="submit" value="搜 索" class="searchgo">
+		</form>
+  </div>
+</div>
+<div class="nav">
+  <div class="main">
+    <ul class="nav_l">
+      <li><a href="{% url 'index' %}">首页</a></li>
+      {% for type in all_type %}
+        <li><a href="{% url 'novel_cate' type.id%}">{{type.type_name}}</a></li>
+        
+      {% endfor %}
+    </ul>
+    <ul class="nav_r">
+      <li><a href="#">收藏</a></li>
+      <li><a href="#">新书</a></li>
+      <li><a href="#">完本</a></li>
+      <li><a href="#" rel="nofollow">求书</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="place">
+  当前位置：<a href="/">99读书网</a> &gt; <a href="{% url 'novel_cate' novel.get_novel_type_id %}">{{novel.get_novel_type}}</a> &gt; {{novel.novel_name}}
+</div>
+<div class="jieshao">
+  <div class="lf">
+    <img src="{{novel.image.url}}" alt="{{novel.novel_name}}" >
+  </div>
+  <div class="rt">
+    <h1>{{novel.novel_name}}</h1>
+    <div class="msg">
+      <em>作者：{{novel.author}} </em>
+      <!-- <em>状态：连载中 </em><em>更新时间：11-18</em><em>最新章节：<a href="#">第九十三章吃好，喝好</a></em> -->
+    </div>
+   
+    <div class="intro">
+          {{novel.description | truncatechars:500}}
+
+    </div>
+  </div>
+  
+</div>
+
+<div class="mulu">
+  <ul>
+    
+  	{% for article in novel.get_all_article %}
+    	<li><a href="?articleId={{article.id}}">{{article.title}}</a></li>
+    {% endfor %}
+    
+  </ul>
+</div>
+
+<div id="footer">
+  <p>
+    本站所有小说由网友上传，如有侵犯版权，请来信告知，本站立即予以处理。
+  </p>
+  <p>
+    Copyright &#169; 2018 88读书网 All Rights Reserved.
+    <script>tongji();</script>
+    <a href="https://www.88dush.com/modules/article/articlemanage.php?id=94313" rel="nofollow">管理</a>
+  </p>
+</div>
+
+
+
+
+</html>

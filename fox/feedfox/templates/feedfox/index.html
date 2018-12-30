@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- saved from url=(0023)https://www.88dush.com/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>99读书网 - 无弹窗小说阅读网</title>
+<meta name="keywords" content="99读书网,无弹窗">
+<meta name="description" content="88读书网是小说迷最喜欢的小说阅读网，免费为您提供小说在线阅读服务，还没有弹窗广告。我们将提供更多的优质小说分享给大家！">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform">
+<!-- <meta http-equiv="mobile-agent" content="format=html5; url=https://m.88dush.com">
+<meta http-equiv="mobile-agent" content="format=xhtml; url=https://m.88dush.com"> -->
+<link rel="stylesheet" href="/static/feedfox/files/index.min.css">
+<!-- <script src="static/feedfox/files/hm.js.下载"></script> -->
+<!-- <script src="static/feedfox/files/push.js.下载"></script> -->
+<script type="text/javascript" src="/static/feedfox/files/jquery.js.下载">
+  
+</script>
+<!-- <script type="text/javascript" src="static/feedfox/files/index.js.下载">
+  
+</script> -->
+<style type="text/css">
+  
+</style>
+</head>
+<body>
+
+
+<div class="wrapper">
+  <div class="logo">
+    <a href="" style="background: url(/static/feedfox/files/move.png)">88读书网</a>
+  </div>
+  <div class="seach">
+    <form action="{%url 'search' %}" accept-charset="utf-8">
+		<!-- <input name="search_field" id="selVal" type="hidden" value="0"> -->
+		<input type="text" autocomplete="off" name="key" class="searchinput" placeholder="请输入小说名和作者名来搜索，千万别输错字了！">
+		<input type="submit" value="搜 索" class="searchgo">
+		</form>
+  </div>
+</div>
+<div class="nav">
+  <div class="main">
+    <ul class="nav_l">
+      <li><a href="{% url 'index' %}">首页</a></li>
+      {% for type in all_type %}
+        <li><a href="{% url 'novel_cate' type.id%}">{{type.type_name}}</a></li>
+        
+      {% endfor %}
+      
+    </ul>
+    <ul class="nav_r">
+      <li><a href="#">收藏</a></li>
+      <li><a href="#">新书</a></li>
+      <li><a href="#">完本</a></li>
+      <li><a href="#" rel="nofollow">求书</a></li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="fengtui">
+
+  {% for novel in new_novel %}
+
+  <dl>
+    <dt><a href="{%url 'novel_detail' novel.id %}"><img src="{{novel.image.url}}" alt="{{novel.novel_name}}"></a></dt>
+    <dd><h3><a href="{%url 'novel_detail' novel.id %}">{{novel.novel_name}}</a></h3><span>{{novel.author}}</span><p>   {{novel.description | truncatechars:65}}</p></dd>
+  </dl>
+  {% endfor %}
+
+</div>
+
+<div class="tuijian">
+{% for type in tuijian1  %}
+      <ul class="l">
+        <li class="t">
+            <h2><a href="{% url 'novel_cate' type.id%}">{{type.type_name}}</a></h2>
+        </li>
+        {% for novel in type.get_novels_by_cate %}
+        <li><a href="{%url 'novel_detail' novel.id %}">{{novel.novel_name}}</a>/{{novel.author}}</li>
+        {% endfor %}
+      </ul>
+  {% endfor %}
+</div>
+
+
+<div class="tuijian">
+  {% for type in tuijian2  %}
+      <ul class="l">
+        <li class="t">
+            <h2><a href="{% url 'novel_cate' type.id%}">{{type.type_name}}</a></h2>
+        </li>
+        {% for novel in type.get_novels_by_cate %}
+        <li><a href="{%url 'novel_detail' novel.id %}">{{novel.novel_name}}</a>/{{novel.author}}</li>
+        {% endfor %}
+      </ul>
+  {% endfor %}
+</div>
+<
+<div class="link">
+  友情链接：<a href="https://www.88dush.com/" target="_blank">88读书网</a>
+<a href="http://www.pingshu365.com/" target="_blank">评书网</a>
+<a href="http://faloo.com/" target="_blank">小说网</a>
+<a href="http://www.k6uk.com/" target="_blank">看小说</a>
+<a href="http://www.pingshu8.com/" target="_blank">评书吧</a>
+<a href="http://www.guijj.com/" target="_blank">鬼故事</a>
+
+</div>
+<div id="footer">
+  <p>
+    本站所有小说由网友上传，如有侵犯版权，请来信告知，本站立即予以处理。
+  </p>
+  <p>
+    Copyright &#169; 2018 99读书网 All Rights Reserved.
+    <script>tongji();</script>
+  </p>
+</div>
+
+ </body></html>
