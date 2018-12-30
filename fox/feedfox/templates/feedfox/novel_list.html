@@ -1,0 +1,5 @@
+<ul>
+	{% for novel in novels %}
+		<li> <a href="{% url 'novel_detail' novel.id   %} ">{{novel.novel_name}}</a></li>
+	{% endfor %}
+</ul>
